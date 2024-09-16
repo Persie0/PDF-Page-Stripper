@@ -9,10 +9,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <h1>PDF Page Stripper (Presentation Slides)<span class="info-icon" onclick="showInfo()">i</span></h1>
+        <h1>PDF Page Stripper (Presentation Slides)
+            <span style="display: inline-block; height: 2px;">&nbsp;</span>
+            <span class="github-icon github-btn" onclick="showInfo()"><i class="fas fa-info-circle"></i></span>
+            <span style="display: inline-block; height: 10px;">&nbsp;</span>
+            <a href="https://github.com/Persie0/PDF-Page-Stripper" target="_blank" class="github-icon github-btn"><i class="fab fa-github"></i></a>
+            <a href="https://github.com/Persie0/PDF-Page-Stripper/issues" target="_blank" class="issue-icon github-btn"><i class="fas fa-bug"></i></a>
+        </h1>
         <p>This tool removes pages that contain all words from the previous page, effectively stripping out incremental slides.</p>
         <div class="input-group">
             <input type="file" id="fileInput" accept=".pdf" multiple>
