@@ -4,6 +4,8 @@
 
 Live Demo: [PDF Page Stripper (Presentation Slides)](https://persie0.github.io/PDF-Page-Stripper/)
 
+<img src="images/screenshot.jpg" alt="PDF Page Stripper Screenshot" style="width: 600px; cursor: pointer;" onclick="window.open(this.src)">
+
 ## How to Use
 
 1. Open the [web app](https://persie0.github.io/PDF-Page-Stripper/).
@@ -26,4 +28,3 @@ Live Demo: [PDF Page Stripper (Presentation Slides)](https://persie0.github.io/P
 ### Idea and Inspiration
 
 This project was inspired by [pdf-page-stripper](https://github.com/fsinf/pdf-page-stripper) on GitHub. But for me, the original often works "too good" and removes more than it should.
-
