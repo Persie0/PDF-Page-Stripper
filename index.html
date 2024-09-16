@@ -235,47 +235,110 @@
         }
 
         async function processPDF(file) {
-            // Your existing PDF processing logic here
-            // Modify as needed
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+            const numPages = pdf.numPages;
+            let pagesToKeep = [];
+            let allPages = [];
 
-            // Example result
-            return {
-                pdf: file, // Replace with actual processed PDF object
-                html: `
-                <div class="results-summary">
-                    <div class="pages-kept">
-                        <h3>Pages Kept</h3>
-                        <p>101</p> <!-- Updated with green text -->
-                    </div>
-                    <div class="pages-removed">
-                        <h3>Pages Removed</h3>
-                        <p>64</p> <!-- Updated with red text -->
-                    </div>
-                </div>
-                <div class="pages-list">
-                    <span class="page-chip page-kept">Page 1</span>
-                    <span class="page-chip page-removed">Page 2</span>
-                    <span class="page-chip page-kept">Page 3</span>
-                    <!-- Add more page chips as needed -->
-                </div>
-                `
-            };
-        }
+            for (let i = 1; i <= numPages; i++) {
+                const page = await pdf.getPage(i);
+                const textContent = await page.getTextContent();
+                const pageText = textContent.items.map(item => item.str).join(' ');
 
-        function downloadProcessedPDFs() {
-            if (processedPDFs.length === 0) {
-                alert('No processed PDFs to download.');
-                return;
+                allPages.push({ pageNumber: i, text: pageText });
+
+                if (pagesToKeep.length === 0 || !includesAllWords(pageText, pagesToKeep[pagesToKeep.length - 1].text)) {
+                    pagesToKeep.push({ pageNumber: i, text: pageText });
+                } else {
+                    pagesToKeep.pop();
+                    pagesToKeep.push({ pageNumber: i, text: pageText });
+                }
             }
 
-            const zip = new JSZip();
-            processedPDFs.forEach((pdfData) => {
-                zip.file(pdfData.name, pdfData.pdf);
-            });
+            const processedPDF = await createProcessedPDF(file, pagesToKeep);
+            const html = displayResults(file.name, pagesToKeep, allPages);
 
-            zip.generateAsync({ type: 'blob' }).then((content) => {
-                download(content, 'processed_pdfs.zip');
-            });
+            return { pdf: processedPDF, html: html };
+        }
+
+        function includesAllWords(currentText, previousText) {
+            const currentWords = new Set(currentText.toLowerCase().split(/\s+/));
+            const previousWords = new Set(previousText.toLowerCase().split(/\s+/));
+
+            for (let word of previousWords) {
+                if (!currentWords.has(word)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function displayResults(fileName, pagesToKeep, allPages) {
+            const keptPageNumbers = new Set(pagesToKeep.map(p => p.pageNumber));
+            const removedPages = allPages.length - pagesToKeep.length;
+            
+            let html = `<h2>${fileName}</h2>`;
+            html += `
+                <div class="results-summary">
+                    <div>
+                        <h3>Total Pages</h3>
+                        <p>${allPages.length}</p>
+                    </div>
+                    <div>
+                        <h3>Pages Kept</h3>
+                        <p>${pagesToKeep.length}</p>
+                    </div>
+                    <div>
+                        <h3>Pages Removed</h3>
+                        <p>${removedPages}</p>
+                    </div>
+                </div>
+            `;
+            html += `<h3>Page breakdown:</h3>`;
+            html += `<div class="pages-list">`;
+            for (let page of allPages) {
+                const chipClass = keptPageNumbers.has(page.pageNumber) ? 'page-kept' : 'page-removed';
+                html += `<span class="page-chip ${chipClass}">Page ${page.pageNumber}</span>`;
+            }
+            html += `</div>`;
+            
+            return html;
+        }
+
+        async function createProcessedPDF(file, pagesToKeep) {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+            const newPdfDoc = await PDFLib.PDFDocument.create();
+
+            for (const page of pagesToKeep) {
+                const [copiedPage] = await newPdfDoc.copyPages(pdfDoc, [page.pageNumber - 1]);
+                newPdfDoc.addPage(copiedPage);
+            }
+
+            return await newPdfDoc.save();
+        }
+
+        async function downloadProcessedPDFs() {
+            if (processedPDFs.length === 1) {
+                pdfCreationStatus.textContent = 'Creating PDF...';
+                await new Promise(resolve => setTimeout(resolve, 100)); // Allow UI to update
+                const pdfFile = processedPDFs[0];
+                download(pdfFile.pdf, pdfFile.name, 'application/pdf');
+                pdfCreationStatus.textContent = 'PDF downloaded successfully!';
+            } else {
+                pdfCreationStatus.textContent = 'Creating ZIP file...';
+                await new Promise(resolve => setTimeout(resolve, 100)); // Allow UI to update
+                const zip = new JSZip();
+
+                for (const pdfFile of processedPDFs) {
+                    zip.file(pdfFile.name, pdfFile.pdf);
+                }
+
+                const content = await zip.generateAsync({ type: 'blob' });
+                download(content, 'processed_pdfs.zip', 'application/zip');
+                pdfCreationStatus.textContent = 'ZIP file downloaded successfully!';
+            }
         }
 
         function showInfo() {
