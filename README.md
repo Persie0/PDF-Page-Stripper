@@ -1,12 +1,12 @@
-# PDF Page Stripper
+# PDF Page Stripper (Powerpoint Slides)
 
-**PDF Page Stripper** is a simple web-based tool that processes PDF files by removing pages that are considered redundant, specifically those that contain all the words from the previous page. This is particularly useful for cleaning up presentations or documents where slides/pages incrementally build on the previous ones. 
+**PDF Page Stripper** removes pages that are considered redundant, particularly useful for cleaning up presentations or documents where slides/pages incrementally build on the previous ones. 
 
-Live Demo: [PDF Page Stripper](https://persie0.github.io/PDF-Page-Stripper/)
+Live Demo: [PDF Page Stripper (Powerpoint Slides)](https://persie0.github.io/PDF-Page-Stripper/)
 
 ## How to Use
 
-1. Open the [PDF Page Stripper web app](https://persie0.github.io/PDF-Page-Stripper/).
+1. Open the [web app](https://persie0.github.io/PDF-Page-Stripper/).
 2. Select one or more PDF files by clicking on the file input.
 3. Click "Process PDFs" to start analyzing the documents.
 4. After processing, a "Download Processed PDFs" button will appear. Click it to download a ZIP file containing the cleaned PDFs.
@@ -21,9 +21,7 @@ Live Demo: [PDF Page Stripper](https://persie0.github.io/PDF-Page-Stripper/)
 
 - **Multi-file support**: You can upload multiple PDF files at once, and each will be processed individually.
 - **Text-based analysis**: The comparison is based purely on the text content of each page.
-- **No external dependencies**: This tool is built entirely with HTML, JavaScript, and PDF libraries like [PDF.js](https://github.com/mozilla/pdf.js) and [PDF-Lib](https://pdf-lib.js.org/).
-- **Progress Indicator**: A progress bar is displayed while the PDFs are being processed, indicating the status of the operation.
-- **Results Summary**: For each PDF, the tool provides a breakdown of total pages, pages kept, and pages removed, along with a visual representation of the page retention.
+- **Results Summary**: For each PDF, the tool provides a breakdown of total pages, pages kept (green), and pages removed (red), along with a visual representation of the page retention.
 
 ### Idea and Inspiration
 
