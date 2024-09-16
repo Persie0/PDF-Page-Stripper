@@ -1,8 +1,8 @@
-# PDF Page Stripper (Powerpoint Slides)
+# PDF Page Stripper (Presentation Slides)
 
 **PDF Page Stripper** removes pages that are considered redundant, particularly useful for cleaning up presentations or documents where slides/pages incrementally build on the previous ones. 
 
-Live Demo: [PDF Page Stripper (Powerpoint Slides)](https://persie0.github.io/PDF-Page-Stripper/)
+Live Demo: [PDF Page Stripper (Presentation Slides)](https://persie0.github.io/PDF-Page-Stripper/)
 
 ## How to Use
 
