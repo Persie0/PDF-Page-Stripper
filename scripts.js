@@ -91,6 +91,9 @@ async function processPDF(file) {
             pagesToKeep.pop();
             pagesToKeep.push({ pageNumber: i, text: pageText });
         }
+
+        // Update progress more frequently
+        updateProgress(file.name, i, numPages);
     }
 
     const processedPDF = await createProcessedPDF(file, pagesToKeep);
@@ -98,6 +101,11 @@ async function processPDF(file) {
     return { pdf: processedPDF, html: html };
 }
 
+function updateProgress(fileName, currentPage, totalPages) {
+    const percentage = Math.round((currentPage / totalPages) * 100);
+    pdfCreationStatus.textContent = `Processing ${fileName}: ${percentage}% (Page ${currentPage}/${totalPages})`;
+    progress.style.width = `${percentage}%`;
+}
 
 function displayResults(fileName, pagesToKeep, allPages) {
     const keptPageNumbers = new Set(pagesToKeep.map(p => p.pageNumber));
@@ -141,12 +149,25 @@ async function createProcessedPDF(file, pagesToKeep) {
     const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
     const newPdfDoc = await PDFLib.PDFDocument.create();
 
-    for (const page of pagesToKeep) {
+    for (let i = 0; i < pagesToKeep.length; i++) {
+        const page = pagesToKeep[i];
         const [copiedPage] = await newPdfDoc.copyPages(pdfDoc, [page.pageNumber - 1]);
         newPdfDoc.addPage(copiedPage);
+
+        // Update progress
+        updateCreationProgress(file.name, i + 1, pagesToKeep.length);
     }
 
+    // Final status update before saving
+    pdfCreationStatus.textContent = `Finalizing ${file.name}...`;
+    
     return await newPdfDoc.save();
+}
+
+function updateCreationProgress(fileName, currentPage, totalPages) {
+    const percentage = Math.round((currentPage / totalPages) * 100);
+    pdfCreationStatus.textContent = `Creating new PDF for ${fileName}: ${percentage}% (Page ${currentPage}/${totalPages})`;
+    progress.style.width = `${percentage}%`;
 }
 
 async function downloadProcessedPDFs() {
