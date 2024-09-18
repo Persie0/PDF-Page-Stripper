@@ -1,10 +1,10 @@
-# PDF Page Stripper (Presentation Slides)
+# PDF Page Stripper
 
 Enhance your study materials by removing redundant slides with PDF Page Stripper.
 
 [Live Demo](https://persie0.github.io/PDF-Page-Stripper/)
 
-![PDF Page Stripper Screenshot](images/screenshot.jpg)
+<img src="images/screenshot.jpg" alt="PDF Page Stripper Screenshot" style="max-width: 600px; width: 100%;" />
 
 ## Features
 
