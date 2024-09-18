@@ -176,3 +176,45 @@ function showInfo() {
 function closeInfo() {
     document.getElementById('infoModal').style.display = 'none';
 }
+
+// Function to set a cookie
+function setCookie(name, value, days) {
+    let expires = "";
+    if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+
+// Function to get a cookie
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+// Function to initialize the checkbox state
+function initCheckboxState() {
+    const checkbox = document.getElementById('wordComparisonMode');
+    const savedState = getCookie('wordComparisonMode');
+    
+    if (savedState === 'true') {
+        checkbox.checked = true;
+    } else {
+        checkbox.checked = false;
+    }
+
+    checkbox.addEventListener('change', function() {
+        setCookie('wordComparisonMode', this.checked, 30); // Save for 30 days
+    });
+}
+
+// Call this function when the page loads
+document.addEventListener('DOMContentLoaded', initCheckboxState);
