@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF Page Stripper</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/downloadjs@1.4.7/download.min.js"></script>
+    <script src="lib/jszip.min.js"></script>
+    <script src="lib/pdf-lib.min.js"></script>
+    <script src="lib/download.min.js"></script>
     <link rel="icon" type="image/png" href="images/icon64.png">
 </head>
 <body>
@@ -57,6 +55,6 @@
 
     <div class="drag-drop-text">Drop PDF files here</div>
 
-    <script src="scripts.js"></script>
+    <script type="module" src="scripts.js"></script>
 </body>
 </html>

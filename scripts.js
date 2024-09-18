@@ -1,6 +1,8 @@
 // scripts.js
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.worker.min.js';
+import * as pdfjsLib from './lib/pdf.min.mjs';
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = './lib/pdf.worker.min.mjs';
 
 const fileInput = document.getElementById('fileInput');
 const downloadBtn = document.getElementById('downloadBtn');
@@ -9,44 +11,6 @@ const progress = document.querySelector('.progress');
 const pdfCreationStatus = document.getElementById('pdfCreationStatus');
 
 let processedPDFs = [];
-
-function setupDragAndDrop() {
-    const dropZone = document.body;
-
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        dropZone.addEventListener(eventName, preventDefaults, false);
-    });
-
-    function preventDefaults(e) {
-        e.preventDefault();
-        e.stopPropagation();
-    }
-
-    ['dragenter', 'dragover'].forEach(eventName => {
-        dropZone.addEventListener(eventName, highlight, false);
-    });
-
-    ['dragleave', 'drop'].forEach(eventName => {
-        dropZone.addEventListener(eventName, unhighlight, false);
-    });
-
-    function highlight() {
-        dropZone.classList.add('highlight');
-    }
-
-    function unhighlight() {
-        dropZone.classList.remove('highlight');
-    }
-
-    dropZone.addEventListener('drop', handleDrop, false);
-
-    function handleDrop(e) {
-        const dt = e.dataTransfer;
-        const files = dt.files;
-        fileInput.files = files;
-        processFiles(); // Automatically start processing when files are dropped
-    }
-}
 
 async function processFiles() {
     const files = fileInput.files;
@@ -77,7 +41,6 @@ async function processFiles() {
     pdfCreationStatus.textContent = 'All PDFs processed successfully!';
     downloadBtn.style.display = 'inline-block';
 }
-
 
 async function processPDF(file) {
     const arrayBuffer = await file.arrayBuffer();
@@ -303,3 +266,9 @@ function setupDragAndDrop() {
 
 // Call this function when the page loads
 document.addEventListener('DOMContentLoaded', setupDragAndDrop);
+
+// Export the functions that need to be accessible globally
+window.processFiles = processFiles;
+window.downloadProcessedPDFs = downloadProcessedPDFs;
+window.showInfo = showInfo;
+window.closeInfo = closeInfo;
