@@ -33,4 +33,4 @@ Enhance your study materials by removing redundant slides with PDF Page Stripper
 
 ## Inspiration
 
-This project was inspired by [pdf-page-stripper](https://github.com/fsinf/pdf-page-stripper), with improvements for more accurate page retention.
+This project was inspired by [pdf-page-stripper](https://github.com/fsinf/pdf-page-stripper), which for my taste often removes too many slides.
