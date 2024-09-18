@@ -1,15 +1,54 @@
+// scripts.js
+
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.worker.min.js';
 
+const fileInput = document.getElementById('fileInput');
 const downloadBtn = document.getElementById('downloadBtn');
 const progressBar = document.querySelector('.progress-bar');
 const progress = document.querySelector('.progress');
 const pdfCreationStatus = document.getElementById('pdfCreationStatus');
-const resultSeparator = document.getElementById('resultSeparator');
 
 let processedPDFs = [];
 
+function setupDragAndDrop() {
+    const dropZone = document.body;
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight() {
+        dropZone.classList.add('highlight');
+    }
+
+    function unhighlight() {
+        dropZone.classList.remove('highlight');
+    }
+
+    dropZone.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        fileInput.files = files;
+        processFiles(); // Automatically start processing when files are dropped
+    }
+}
+
 async function processFiles() {
-    const fileInput = document.getElementById('fileInput');
     const files = fileInput.files;
     if (files.length === 0) {
         alert('Please select at least one PDF file.');
@@ -36,9 +75,9 @@ async function processFiles() {
     progress.style.width = '0%';
     progressBar.style.display = 'none';
     pdfCreationStatus.textContent = 'All PDFs processed successfully!';
-    resultSeparator.style.display = 'block';
     downloadBtn.style.display = 'inline-block';
 }
+
 
 async function processPDF(file) {
     const arrayBuffer = await file.arrayBuffer();
@@ -177,6 +216,9 @@ function closeInfo() {
     document.getElementById('infoModal').style.display = 'none';
 }
 
+// Initialize drag and drop functionality
+document.addEventListener('DOMContentLoaded', setupDragAndDrop);
+
 // Function to set a cookie
 function setCookie(name, value, days) {
     let expires = "";
@@ -218,3 +260,46 @@ function initCheckboxState() {
 
 // Call this function when the page loads
 document.addEventListener('DOMContentLoaded', initCheckboxState);
+
+// Add this to your scripts.js file
+
+function setupDragAndDrop() {
+    const dropZone = document.body;
+    const fileInput = document.getElementById('fileInput');
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight() {
+        dropZone.classList.add('highlight');
+    }
+
+    function unhighlight() {
+        dropZone.classList.remove('highlight');
+    }
+
+    dropZone.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        fileInput.files = files;
+    }
+}
+
+// Call this function when the page loads
+document.addEventListener('DOMContentLoaded', setupDragAndDrop);
