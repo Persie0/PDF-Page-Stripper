@@ -10,14 +10,18 @@ Live Demo: [PDF Page Stripper (Presentation Slides)](https://persie0.github.io/P
 
 1. Open the [web app](https://persie0.github.io/PDF-Page-Stripper/).
 2. Select one or more PDF files by clicking on the file input.
-3. Click "Process PDFs" to start analyzing the documents.
-4. After processing, a "Download Processed PDFs" button will appear. Click it to download a ZIP file containing the cleaned PDFs.
+3. Choose the comparison mode:
+    - Word comparison mode (default): Strips more pages by comparing individual words.
+    - Full text comparison mode: Strips fewer pages by comparing the entire text content.
+4. Click "Process PDFs" to start analyzing the documents.
+5. After processing, a "Download Processed PDFs" button will appear. Click it to download a ZIP file containing the cleaned PDFs.
 
 ## How It Works
 
 1. **Upload PDF Files**: You can upload one or more PDF files using the file input field.
-2. **Page Comparison**: The tool extracts text from each page and compares it to the previous page. If the current page contains all the words from the previous page, the previous page is considered redundant and is removed.
-3. **Download Processed PDFs**: After processing, you can download the modified PDFs, which only retain the relevant pages. The result is available as a downloadable ZIP file containing all processed PDFs.
+2. **Comparison Mode**: Choose between word comparison (strips more) and full text comparison (strips less).
+3. **Page Comparison**: The tool extracts content from each page and compares it to the previous page. If the current page contains all the content from the previous page (based on the chosen comparison mode), the previous page is considered redundant and is removed.
+4. **Download Processed PDFs**: After processing, you can download the modified PDFs, which only retain the relevant pages. The result is available as a downloadable ZIP file containing all processed PDFs.
 
 ## Features
 

@@ -132,3 +132,11 @@ button:hover {
     text-decoration: none;
     cursor: pointer;
 }
+
+.checkbox-group {
+    margin-top: 10px;
+}
+
+.checkbox-group label {
+    margin-left: 5px;
+}

@@ -10,6 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/png" href="icon64.png">
 </head>
 <body>
     <div class="container">
@@ -23,8 +24,12 @@
         <p>This tool removes pages that contain all words from the previous page, effectively stripping out incremental slides.</p>
         <div class="input-group">
             <input type="file" id="fileInput" accept=".pdf" multiple>
+            <div class="checkbox-group">
+                <input type="checkbox" id="wordComparisonMode" checked>
+                <label for="wordComparisonMode">Use word comparison mode (strips more)</label>
+            </div>
         </div>
-        <button onclick="processFiles()">Process PDFs</button>
+        <button onclick="processFiles()" style="margin-bottom: 10px;">Process PDFs</button>
         <button id="downloadBtn" onclick="downloadProcessedPDFs()" style="display: none; margin-left: 10px;">Download Processed PDFs</button>
         <div class="progress-bar" style="display: none;">
             <span class="progress" style="width: 0%"></span>
@@ -38,11 +43,12 @@
         <div class="modal-content">
             <span class="close" onclick="closeInfo()">&times;</span>
             <h2>How it works</h2>
-            <p>This tool processes PDF files by comparing the text content of each page:</p>
+            <p>This tool processes PDF files by comparing the content of each page:</p>
             <ul>
-                <li>It extracts the text from each page of the PDF.</li>
+                <li>It extracts the content from each page of the PDF.</li>
                 <li>It compares the current page with the previous page.</li>
-                <li>If the current page contains all the words from the previous page, the previous page is removed.</li>
+                <li>If the current page contains all the content from the previous page, the previous page is removed.</li>
+                <li>You can choose between word comparison mode (strips more) and full text comparison mode (strips less).</li>
                 <li>This process effectively removes incremental slides, keeping only the final version of each slide.</li>
                 <li>The tool can process multiple PDF files at once.</li>
                 <li>After processing, you can download a ZIP file containing all processed PDFs.</li>

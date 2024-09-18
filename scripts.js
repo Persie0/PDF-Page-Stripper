@@ -33,6 +33,7 @@ async function processFiles() {
     }
 
     document.getElementById('output').innerHTML = outputHtml;
+    progress.style.width = '0%';
     progressBar.style.display = 'none';
     pdfCreationStatus.textContent = 'All PDFs processed successfully!';
     resultSeparator.style.display = 'block';
@@ -46,14 +47,43 @@ async function processPDF(file) {
     let pagesToKeep = [];
     let allPages = [];
 
+    const wordComparisonMode = document.getElementById('wordComparisonMode').checked;
+
+    function getWords(text) {
+        return text.toLowerCase().match(/\b\w+\b/g) || [];
+    }
+
+    function includesAllWords(newText, existingText) {
+        const newWords = new Set(getWords(newText));
+        const existingWords = new Set(getWords(existingText));
+        for (let word of existingWords) {
+            if (!newWords.has(word)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function includesContent(currentText, previousText) {
+        const currentWords = new Set(currentText.toLowerCase().split(/\s+/));
+        const previousWords = new Set(previousText.toLowerCase().split(/\s+/));
+        for (let word of previousWords) {
+            if (!currentWords.has(word)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     for (let i = 1; i <= numPages; i++) {
         const page = await pdf.getPage(i);
         const textContent = await page.getTextContent();
         const pageText = textContent.items.map(item => item.str).join(' ');
-
         allPages.push({ pageNumber: i, text: pageText });
-
-        if (pagesToKeep.length === 0 || !includesAllWords(pageText, pagesToKeep[pagesToKeep.length - 1].text)) {
+        
+        if (pagesToKeep.length === 0 || 
+            (wordComparisonMode && !includesAllWords(pageText, pagesToKeep[pagesToKeep.length - 1].text)) ||
+            (!wordComparisonMode && !includesContent(pageText, pagesToKeep[pagesToKeep.length - 1].text))) {
             pagesToKeep.push({ pageNumber: i, text: pageText });
         } else {
             pagesToKeep.pop();
@@ -63,25 +93,14 @@ async function processPDF(file) {
 
     const processedPDF = await createProcessedPDF(file, pagesToKeep);
     const html = displayResults(file.name, pagesToKeep, allPages);
-
     return { pdf: processedPDF, html: html };
 }
 
-function includesAllWords(currentText, previousText) {
-    const currentWords = new Set(currentText.toLowerCase().split(/\s+/));
-    const previousWords = new Set(previousText.toLowerCase().split(/\s+/));
-
-    for (let word of previousWords) {
-        if (!currentWords.has(word)) {
-            return false;
-        }
-    }
-    return true;
-}
 
 function displayResults(fileName, pagesToKeep, allPages) {
     const keptPageNumbers = new Set(pagesToKeep.map(p => p.pageNumber));
     const removedPages = allPages.length - pagesToKeep.length;
+    const comparisonMode = document.getElementById('wordComparisonMode').checked ? 'Word' : 'Full text';
     
     let html = `<h2>${fileName}</h2>`;
     html += `
@@ -97,6 +116,10 @@ function displayResults(fileName, pagesToKeep, allPages) {
             <div>
                 <h3>Pages Removed</h3>
                 <p>${removedPages}</p>
+            </div>
+            <div>
+                <h3>Comparison Mode</h3>
+                <p>${comparisonMode}</p>
             </div>
         </div>
     `;
