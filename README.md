@@ -4,7 +4,7 @@ Enhance your study materials by removing redundant slides with PDF Page Stripper
 
 [Live Demo](https://persie0.github.io/PDF-Page-Stripper/)
 
-<img src="images/screenshot.jpg" alt="PDF Page Stripper Screenshot" style="max-width: 600px; width: 100%;" />
+<img src="images/screenshot.jpg" alt="PDF Page Stripper Screenshot" style="width: 600px; cursor: pointer;" onclick="window.open('https://persie0.github.io/PDF-Page-Stripper/')">
 
 ## Features
 
