@@ -1,6 +1,6 @@
 # PDF Page Stripper
 
-Enhance your study materials by removing incrementally built slides with PDF Page Stripper.
+Remove pages from incrementally built slides, keeping only the final/complete ones.
 
 [Live Demo](https://persie0.github.io/PDF-Page-Stripper/)
 
@@ -12,30 +12,22 @@ The upper slide would get removed.
 
 <img src="images/example.jpg" alt="PDF Page Stripper Example" style="width: 370px; cursor: pointer;">
 
-## Features
-
-- Remove incrementally built slides, keeping only the final versions
-- Process multiple PDFs simultaneously
-- Choose between word and full text comparison modes
-- Drag and drop support for easy file uploading
-- Detailed results summary for each processed PDF
-
-## How to Use
-
-1. Visit the [web app](https://persie0.github.io/PDF-Page-Stripper/)
-2. Upload PDFs by clicking the file input or dragging and dropping files
-3. Select comparison mode:
-   - Word comparison (default): Strips more pages
-   - Full text comparison: Strips fewer pages
-4. Click "Process PDFs"
-5. Download the cleaned PDFs as a ZIP file
-
 ## How It Works
 
-1. Extract content from each PDF page
-2. Compare current page with the previous page
-3. Remove previous page if current page contains all its content
-4. Retain only relevant pages in the final PDF
+1. Extracts text from each page of the PDFs.
+2. Compares each page with the one before it.
+3. Removes the previous page if the current one contains all its text.
+4. Retains only the relevant, non-duplicate pages in the final PDFs.
+
+## Comparison Mode:
+  - **Word Comparison**: Strips more pages by comparing at the word level.
+  - **Full Text Comparison**: Strips fewer pages by comparing entire text of the page.
+  
+## Additional Features
+
+- Process multiple PDFs simultaneously.
+- Drag and drop support for easy file uploading.
+
 
 ## Inspiration
 
