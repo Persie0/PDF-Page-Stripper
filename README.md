@@ -39,4 +39,4 @@ The upper slide would get removed.
 
 ## Inspiration
 
-This project was inspired by [pdf-page-stripper](https://github.com/fsinf/pdf-page-stripper), which for my taste often removes too many slides.
+This project was inspired by [pdf-page-stripper](https://github.com/fsinf/pdf-page-stripper), which I highly recommend for any tasks other than removing incrementally built slides.
